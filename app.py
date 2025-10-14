@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 
 def ejercicio_1():
     st.header("Ejercicio 1: Estadísticas con NumPy y Pandas")
+    st.subheader("Autor: Alexander Loja    M6A")
 
     Array1 = np.arange(1, 101)
 
