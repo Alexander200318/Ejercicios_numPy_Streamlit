@@ -250,7 +250,7 @@ def ejercicio_estudiantes():
 
 
 # =====================================================
-# 🎯 CREAR DATASET BASE
+#  CREAR DATASET BASE
 # =====================================================
 def crear_dataset():
     """Crea el DataFrame base para todos los ejercicios"""
@@ -268,30 +268,30 @@ def crear_dataset():
 
 
 # =====================================================
-# 1️⃣ Cargar CSV y mostrar las primeras 10 filas
+# 1️ Cargar CSV y mostrar las primeras 10 filas
 # =====================================================
 def ejercicio_1_panda():
-    st.subheader("📊 Ejercicio 1: Dataset de Ventas")
+    st.subheader(" Ejercicio 1: Dataset de Ventas")
     
     col1, col2 = st.columns([3, 1])
     
     with col1:
-        st.info("💡 Usando dataset predefinido de ventas 2024")
+        st.info(" Usando dataset predefinido de ventas 2024")
     
     with col2:
-        if st.button("🔄 Cargar Dataset"):
+        if st.button(" Cargar Dataset"):
             df = crear_dataset()
             st.session_state['df'] = df
-            st.success("✅ Dataset cargado")
+            st.success(" Dataset cargado")
     
     # Si existe el dataset, mostrarlo
     if 'df' in st.session_state:
         df = st.session_state['df']
         
-        st.write("**📋 Primeras 10 filas del DataFrame:**")
+        st.write("** Primeras 10 filas del DataFrame:**")
         st.dataframe(df.head(10), use_container_width=True)
         
-        st.write("**📊 Información del Dataset:**")
+        st.write("** Información del Dataset:**")
         col1, col2, col3, col4 = st.columns(4)
         with col1:
             st.metric("Filas", len(df))
@@ -304,10 +304,10 @@ def ejercicio_1_panda():
 
 
 # =====================================================
-# 2️⃣ Calcular venta total por producto (ordenada)
+# 2️ Calcular venta total por producto (ordenada)
 # =====================================================
 def ejercicio_2_panda(df):
-    st.subheader("📈 Ejercicio 2: Venta Total por Producto")
+    st.subheader(" Ejercicio 2: Venta Total por Producto")
     
     if "producto" in df.columns and "ventas" in df.columns:
         # Calcular total por producto
@@ -316,7 +316,7 @@ def ejercicio_2_panda(df):
         col1, col2 = st.columns([1, 2])
         
         with col1:
-            st.write("**💰 Ventas por Producto:**")
+            st.write("** Ventas por Producto:**")
             resultado_df = pd.DataFrame({
                 'Producto': total_por_producto.index,
                 'Ventas Totales': total_por_producto.values
@@ -324,7 +324,7 @@ def ejercicio_2_panda(df):
             st.dataframe(resultado_df, use_container_width=True)
         
         with col2:
-            st.write("**📊 Gráfico de Barras:**")
+            st.write("** Gráfico de Barras:**")
             fig, ax = plt.subplots(figsize=(8, 5))
             total_por_producto.plot(kind='bar', ax=ax, color=['#1f77b4', '#ff7f0e', '#2ca02c'])
             ax.set_title("Ventas Totales por Producto", fontsize=14, fontweight='bold')
@@ -339,22 +339,22 @@ def ejercicio_2_panda(df):
 
 
 # =====================================================
-# 3️⃣ Identificar valores faltantes y aplicar imputación
+# 3️ Identificar valores faltantes y aplicar imputación
 # =====================================================
 def ejercicio_3_panda(df):
-    st.subheader("🔧 Ejercicio 3: Imputación de Valores Faltantes")
+    st.subheader(" Ejercicio 3: Imputación de Valores Faltantes")
     
     # Crear una copia con valores faltantes para demostración
     df_con_nulos = df.copy()
     
     # Agregar valores nulos aleatorios
-    if st.button("🎲 Generar valores faltantes aleatorios"):
+    if st.button(" Generar valores faltantes aleatorios"):
         np.random.seed(42)
         for col in ['precio', 'cantidad', 'ventas']:
             indices = np.random.choice(df_con_nulos.index, size=2, replace=False)
             df_con_nulos.loc[indices, col] = np.nan
         st.session_state['df_con_nulos'] = df_con_nulos
-        st.success("✅ Valores nulos generados en precio, cantidad y ventas")
+        st.success(" Valores nulos generados en precio, cantidad y ventas")
     
     # Usar el DataFrame con nulos si existe
     df_trabajo = st.session_state.get('df_con_nulos', df_con_nulos)
@@ -363,7 +363,7 @@ def ejercicio_3_panda(df):
     col1, col2 = st.columns(2)
     
     with col1:
-        st.write("**🔍 Valores faltantes por columna:**")
+        st.write("** Valores faltantes por columna:**")
         nulos_df = pd.DataFrame({
             'Columna': df_trabajo.columns,
             'Valores Nulos': df_trabajo.isnull().sum().values,
@@ -372,14 +372,14 @@ def ejercicio_3_panda(df):
         st.dataframe(nulos_df, use_container_width=True)
     
     with col2:
-        st.write("**⚙️ Configuración de Imputación:**")
+        st.write("** Configuración de Imputación:**")
         estrategia = st.selectbox(
             "Selecciona la estrategia:",
             ["media", "mediana", "moda"],
             help="Método para reemplazar valores faltantes"
         )
         
-        if st.button("✨ Aplicar Imputación"):
+        if st.button(" Aplicar Imputación"):
             df_imputado = df_trabajo.copy()
             
             for col in df_imputado.select_dtypes(include=[np.number]).columns:
@@ -394,19 +394,19 @@ def ejercicio_3_panda(df):
                     df_imputado[col] = df_imputado[col].fillna(valor)
             
             st.session_state['df'] = df_imputado
-            st.success(f"✅ Valores imputados usando la {estrategia}")
+            st.success(f" Valores imputados usando la {estrategia}")
             
-            st.write("**📊 DataFrame después de la imputación:**")
+            st.write("** DataFrame después de la imputación:**")
             st.dataframe(df_imputado, use_container_width=True)
             
             return df_imputado
 
 
 # =====================================================
-# 4️⃣ Crear tabla dinámica (ventas por mes y producto)
+# 4️ Crear tabla dinámica (ventas por mes y producto)
 # =====================================================
 def ejercicio_4_panda(df):
-    st.subheader("📅 Ejercicio 4: Tabla Dinámica - Ventas por Mes y Producto")
+    st.subheader(" Ejercicio 4: Tabla Dinámica - Ventas por Mes y Producto")
 
     if "fecha" in df.columns and "producto" in df.columns and "ventas" in df.columns:
         # Preparar datos
@@ -432,16 +432,16 @@ def ejercicio_4_panda(df):
         col1, col2 = st.columns([1, 1])
         
         with col1:
-            st.write("**📊 Tabla Dinámica:**")
+            st.write("** Tabla Dinámica:**")
             st.dataframe(tabla.style.background_gradient(cmap='YlGnBu'), use_container_width=True)
             
             # Estadísticas adicionales
-            st.write("**📈 Totales por Producto:**")
+            st.write("** Totales por Producto:**")
             totales = tabla.sum().sort_values(ascending=False)
             st.dataframe(totales, use_container_width=True)
         
         with col2:
-            st.write("**📉 Gráfico de Ventas:**")
+            st.write("** Gráfico de Ventas:**")
             fig, ax = plt.subplots(figsize=(8, 6))
             tabla.plot(kind="bar", ax=ax, width=0.8)
             ax.set_title("Ventas Mensuales por Producto", fontsize=14, fontweight='bold')
@@ -458,12 +458,12 @@ def ejercicio_4_panda(df):
 
 
 # =====================================================
-# 5️⃣ MERGE entre DataFrames
+# 5️ MERGE entre DataFrames
 # =====================================================
 def ejercicio_5_panda():
-    st.subheader("🔗 Ejercicio 5: Merge entre DataFrames")
+    st.subheader(" Ejercicio 5: Merge entre DataFrames")
     
-    st.info("💡 Vamos a combinar información de productos con sus ventas")
+    st.info(" Vamos a combinar información de productos con sus ventas")
     
     # Crear DataFrames de ejemplo
     productos_df = pd.DataFrame({
@@ -481,11 +481,11 @@ def ejercicio_5_panda():
     col1, col2 = st.columns(2)
     
     with col1:
-        st.write("**📦 Tabla Productos:**")
+        st.write("** Tabla Productos:**")
         st.dataframe(productos_df, use_container_width=True)
     
     with col2:
-        st.write("**💰 Tabla Ventas:**")
+        st.write("** Tabla Ventas:**")
         st.dataframe(ventas_df.head(6), use_container_width=True)
     
     st.write("---")
@@ -497,23 +497,23 @@ def ejercicio_5_panda():
         help="left: mantiene todos de la izquierda | inner: solo coincidencias"
     )
     
-    if st.button("🔀 Realizar Merge"):
+    if st.button(" Realizar Merge"):
         # Merge
         resultado = pd.merge(ventas_df, productos_df, on='producto', how=tipo_merge)
         
-        st.success(f"✅ Merge realizado con éxito usando '{tipo_merge}' join")
+        st.success(f" Merge realizado con éxito usando '{tipo_merge}' join")
         
-        st.write("**📊 Resultado del Merge:**")
+        st.write("** Resultado del Merge:**")
         st.dataframe(resultado, use_container_width=True)
         
         # Validación
         col1, col2, col3 = st.columns(3)
         with col1:
-            st.metric("📝 Registros resultado", len(resultado))
+            st.metric(" Registros resultado", len(resultado))
         with col2:
-            st.metric("📦 Registros productos", len(productos_df))
+            st.metric(" Registros productos", len(productos_df))
         with col3:
-            st.metric("💰 Registros ventas", len(ventas_df))
+            st.metric(" Registros ventas", len(ventas_df))
 
 
 # ===================== MENÚ LATERAL POR CATEGORÍAS =====================
@@ -589,24 +589,24 @@ elif opcion == "Ejercicio 1_panda":
 
 elif opcion == "Ejercicio 2_panda":
     if 'df' in st.session_state:
-        ejercicio_2_panda(st.session_state['df'])  # ← Pasar el DataFrame
+        ejercicio_2_panda(st.session_state['df'])  
     else:
-        st.warning("⚠️ Primero carga el dataset en el Ejercicio 1")
-        st.info("👉 Ve al Ejercicio 1 y presiona 'Cargar Dataset'")
+        st.warning(" Primero carga el dataset en el Ejercicio 1")
+        st.info(" Ve al Ejercicio 1 y presiona 'Cargar Dataset'")
 
 elif opcion == "Ejercicio 3_panda":
     if 'df' in st.session_state:
-        ejercicio_3_panda(st.session_state['df'])  # ← Pasar el DataFrame
+        ejercicio_3_panda(st.session_state['df'])  
     else:
-        st.warning("⚠️ Primero carga el dataset en el Ejercicio 1")
-        st.info("👉 Ve al Ejercicio 1 y presiona 'Cargar Dataset'")
+        st.warning(" Primero carga el dataset en el Ejercicio 1")
+        st.info(" Ve al Ejercicio 1 y presiona 'Cargar Dataset'")
 
 elif opcion == "Ejercicio 4_panda":
     if 'df' in st.session_state:
-        ejercicio_4_panda(st.session_state['df'])  # ← Pasar el DataFrame
+        ejercicio_4_panda(st.session_state['df'])  
     else:
-        st.warning("⚠️ Primero carga el dataset en el Ejercicio 1")
-        st.info("👉 Ve al Ejercicio 1 y presiona 'Cargar Dataset'")
+        st.warning(" Primero carga el dataset en el Ejercicio 1")
+        st.info(" Ve al Ejercicio 1 y presiona 'Cargar Dataset'")
 
 elif opcion == "Ejercicio 5_panda": 
     ejercicio_5_panda()
